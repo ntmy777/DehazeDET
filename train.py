@@ -792,6 +792,7 @@ def inference(model_path, image_path, args, params, device='cpu',apply_dehazing=
 
     # Save output image
     output_path = os.path.join(output_folder, 'dehazed_with_detections.jpg')
+    restored_img = cv2.cvtColor(restored_img, cv2.COLOR_RGB2BGR)
     cv2.imwrite(output_path, restored_img)
 
     print(f"Output image saved to {output_path}")
@@ -802,7 +803,7 @@ def inference(model_path, image_path, args, params, device='cpu',apply_dehazing=
         return original_resized
     cv2.imwrite(os.path.join(output_folder, 'original_resized.jpg'), original_resized)
     return restored_img
-
+    
 @torch.no_grad()
 def inference_test_set(model_path, args, params, test_set='test', device="cpu"):
     # Load model
@@ -904,4 +905,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
