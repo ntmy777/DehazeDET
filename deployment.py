@@ -72,12 +72,14 @@ if uploaded_file is not None:
         image.save(tmp_file.name)  # Save the image to disk
         temp_path = tmp_file.name  # Get the path
 
-    # Run inference with the temp file path
-    result_img = inference(args.model_path, temp_path, args, params, device='cpu')
+    col1, col2, col3 = st.columns([2, 1, 2])
+    with col2:
+        with st.spinner("Loading..."):
+            # Run inference with the temp file path
+            result_img = inference(args.model_path, temp_path, args, params, device='cpu')
 
     # Show the result
     st.image(result_img, caption="Inference Result", use_container_width=True)
-
-
     
+
 
