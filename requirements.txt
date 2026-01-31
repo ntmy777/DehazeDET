@@ -1,4 +1,5 @@
-opencv-python==4.13.0.90
+numpy==1.26.4
+opencv-python-headless==4.9.0.80
 piq==0.8.0
 PyYAML==6.0.3
 streamlit==1.53.1
@@ -6,4 +7,4 @@ torch==2.10.0
 torchvision==0.25.0
 tqdm==4.67.1
 matplotlib==3.10.8
-
+huggingface_hub==1.3.5

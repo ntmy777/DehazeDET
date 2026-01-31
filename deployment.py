@@ -7,6 +7,13 @@ import yaml
 import utils as util
 from train import inference 
 import tempfile
+from huggingface_hub import hf_hub_download
+
+MODEL_PATH = hf_hub_download(
+    repo_id="ntmy777/dehazedet",
+    filename="best.pt"
+)
+
 
 # Load arguments and parameters
 def load_args_params():
@@ -15,7 +22,7 @@ def load_args_params():
     parser.add_argument('--batch-size', default=16, type=int)
     parser.add_argument('--local_rank', default=0, type=int)
     parser.add_argument('--epochs', default=100, type=int)
-    parser.add_argument('--model_path', default='./weights/best.pt', type=str)
+    parser.add_argument('--model_path', default=MODEL_PATH, type=str)
     parser.add_argument('--train', action='store_true')
     parser.add_argument('--test', action='store_true')
     parser.add_argument('--inference', action='store_true')
@@ -73,3 +80,4 @@ if uploaded_file is not None:
 
 
     
+
