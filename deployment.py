@@ -57,29 +57,50 @@ def load_args_params():
 st.set_page_config(page_title="DehazeDET Inference", layout="centered")
 st.title("DehazeDet - Object Detection with Image Restoration")
 
-st.write("Upload a hazy image and the model will return a dehazed image with object detection results.")
+st.markdown(
+    """
+    Select an input image to perform joint dehazing and object detection.
+    You may upload your own image or use the provided sample.
+    """
+)
 
-uploaded_file = st.file_uploader("Choose an image...", type=["jpg", "jpeg", "png"])
+st.divider()
+uploaded_file = st.file_uploader("Upload an image...", type=["jpg", "jpeg", "png"])
+use_sample = st.button("Use Provided Sample Image")
+
+image = None
+image_path = None
 
 if uploaded_file is not None:
     image = Image.open(uploaded_file).convert("RGB")
-    st.image(image, caption="Uploaded Image", use_container_width=True)
-
-    args, params = load_args_params()
 
     # Save the uploaded PIL image to a temporary file
     with tempfile.NamedTemporaryFile(suffix=".jpg", delete=False) as tmp_file:
-        image.save(tmp_file.name)  # Save the image to disk
-        temp_path = tmp_file.name  # Get the path
+        image.save(tmp_file.name)  
+        image_path = tmp_file.name 
+        
+elif use_sample:
+    image_path = "./sample-input.png"
+    image = Image.open(image_path).convert("RGB")
 
-    col1, col2, col3 = st.columns([2, 1, 2])
-    with col2:
-        with st.spinner("Loading..."):
-            # Run inference with the temp file path
-            result_img = inference(args.model_path, temp_path, args, params, device='cpu')
+if image is not None:
+    st.subheader("Input Image")
+    st.image(image, use_container_width=True)
 
-    # Show the result
-    st.image(result_img, caption="Inference Result", use_container_width=True)
+    args, params = load_args_params()
+
+    st.divider()
+
+    with st.spinner("Running inference..."):
+        result_img = inference(
+            args.model_path,
+            image_path,
+            args,
+            params,
+            device="cpu"
+        )
+
+    st.subheader("Inference Result")
+    st.image(result_img, use_container_width=True)
+
     
-
-
