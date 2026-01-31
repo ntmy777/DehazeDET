@@ -80,7 +80,7 @@ if uploaded_file is not None:
         image_path = tmp_file.name 
         
 elif use_sample:
-    image_path = "./sample-input.png"
+    image_path = "./sample-input.jpg"
     image = Image.open(image_path).convert("RGB")
 
 if image is not None:
@@ -104,3 +104,4 @@ if image is not None:
     st.image(result_img, use_container_width=True)
 
     
+
