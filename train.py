@@ -737,7 +737,7 @@ def inference(model_path, image_path, args, params, device='cpu',apply_dehazing=
     img = img.unsqueeze(0)  # Add this line to add the batch dimension
     # print(img.shape)  # This should now print torch.Size([1, 3, 640, 640])
     # Load the model
-    model = torch.load(model_path, map_location=device)['model'].float().to(device)
+    model = torch.load(model_path, map_location=device, weights_only=False)['model'].float().to(device)
     
     # Inference
     model.eval()
@@ -905,5 +905,6 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
 
